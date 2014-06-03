@@ -37,16 +37,31 @@ $app->get('/', function () use ($app) {
 });
 
 // API
+$app->taskwarrior = new Taskwarrior();
 $app->group('/api', function () use ($app) {
-  // All tasks.
+  // All tasks
   $app->response->headers->set('Content-Type', 'application/json');
-  $app->get('/tasks', function() {
-    $taskwarrior = new Taskwarrior();
-    $data = $taskwarrior->loadTasks(null, array(), true);
-    echo $data;
+  $app->get('/tasks', function() use ($app) {
+    echo $app->taskwarrior->loadTasks(null, array(), true);
+  });
+  // Pending tasks.
+  $app->get('/tasks/pending', function() use ($app) {
+    echo $app->taskwarrior->loadTasks(null, array('status' => 'pending'), true);
+  });
+  // Completed tasks.
+  $app->get('/tasks/completed', function() use ($app) {
+    echo $app->taskwarrior->loadTasks(null, array('status' => 'completed'), true);
+  });
+  // Deleted tasks.
+  $app->get('/tasks/deleted', function() use ($app) {
+    echo $app->taskwarrior->loadTasks(null, array('status' => 'deleted'), true);
+  });
+  // Waiting tasks.
+  $app->get('/tasks/waiting', function() use ($app) {
+    echo $app->taskwarrior->loadTasks(null, array('status' => 'waiting'), true);
   });
   // Task ID.
-  $app->get('/tasks/:uuid', function($uuid) {
+  $app->get('/tasks/:uuid', function($uuid) use ($app) {
     $taskwarrior = new Taskwarrior();
     echo json_encode($taskwarrior->loadTask($uuid, array(), true));
   });
