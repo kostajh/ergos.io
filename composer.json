@@ -1,0 +1,28 @@
+{
+    "name": "kostajh/ergos.io",
+    "description": "A PHP applicaton for viewing Taskwarrior tasks",
+    "keywords": ["taskwarrior"],
+    "homepage": "http://github.com/kostajh/ergos.io",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kosta Harlan",
+            "email": "kosta@harlan.mayfirst.org",
+            "homepage": "http://www.kostaharlan.net/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "monolog/monolog": "1.*",
+        "slim/slim": "2.*",
+        "slim/views": "0.*",
+        "twig/twig": "1.*",
+        "libtask/libtask": "dev-master",
+        "doctrine/common": "2.5.*@dev",
+        "symfony/class-loader": "2.3.*",
+        "symfony/process": "2.3.*",
+        "symfony/config": "2.3.*",
+        "symfony/serializer": "2.3.*",
+        "jms/serializer": "dev-master"
+    }
+}
