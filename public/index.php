@@ -1,4 +1,5 @@
 <?php
+
 require '../vendor/autoload.php';
 
 use LibTask\Task\Task;
@@ -11,9 +12,8 @@ $app = new \Slim\Slim(array(
 ));
 
 // Create monolog logger and store logger in container as singleton
-// (Singleton resources retrieve the same log resource definition each time)
 $app->container->singleton('log', function () {
-    $log = new \Monolog\Logger('slim-skeleton');
+    $log = new \Monolog\Logger('ergos');
     $log->pushHandler(new \Monolog\Handler\StreamHandler('../logs/app.log', \Monolog\Logger::DEBUG));
     return $log;
 });
@@ -31,10 +31,12 @@ $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
 // Define routes
 $app->get('/', function () use ($app) {
-    // Sample log message
-    $app->log->info("Slim-Skeleton '/' route");
-    // Render index view
-    $app->render('index.html');
+    $app->render('index.twig');
+});
+
+// 404s.
+$app->notFound(function () use ($app) {
+    $app->render('404.html');
 });
 
 // API
