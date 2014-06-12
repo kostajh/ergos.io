@@ -32,4 +32,10 @@ class Ergos {
     }
     $this->app->render(200, $response);
   }
+
+  public function getTask($uuid) {
+    $task = json_decode($this->taskwarrior->loadTask($uuid, array(), true), true);
+    $response['data'][] = $task;
+    $this->app->render(200, $response);
+  }
 }

@@ -40,29 +40,24 @@ $app->group('/api', function () use ($app, $ergos) {
     return $ergos->getTasks();
   });
   // Pending tasks.
-  $app->get('/tasks/pending', function() use ($app) {
-    $app->response->headers->set('Content-Type', 'application/json');
-    echo $app->taskwarrior->loadTasks(null, array('status' => 'pending'), true);
+  $app->get('/tasks/pending', function() use ($app, $ergos) {
+    return $ergos->getTasks('pending');
   });
   // Completed tasks.
-  $app->get('/tasks/completed', function() use ($app) {
-    $app->response->headers->set('Content-Type', 'application/json');
-    echo $app->taskwarrior->loadTasks(null, array('status' => 'completed'), true);
+  $app->get('/tasks/completed', function() use ($app, $ergos) {
+    return $ergos->getTasks('completed');
   });
   // Deleted tasks.
-  $app->get('/tasks/deleted', function() use ($app) {
-    $app->response->headers->set('Content-Type', 'application/json');
-    echo $app->taskwarrior->loadTasks(null, array('status' => 'deleted'), true);
+  $app->get('/tasks/deleted', function() use ($app, $ergos) {
+    return $ergos->getTasks('deleted');
   });
   // Waiting tasks.
-  $app->get('/tasks/waiting', function() use ($app) {
-    $app->response->headers->set('Content-Type', 'application/json');
-    echo $app->taskwarrior->loadTasks(null, array('status' => 'waiting'), true);
+  $app->get('/tasks/waiting', function() use ($app, $ergos) {
+    return $ergos->getTasks('waiting');
   });
   // Task ID.
-  $app->get('/tasks/:uuid', function($uuid) use ($app) {
-    $app->response->headers->set('Content-Type', 'application/json');
-    echo $app->taskwarrior->loadTask($uuid, array(), true);
+  $app->get('/tasks/:uuid', function($uuid) use ($app, $ergos) {
+    return $ergos->getTask($uuid);
   });
 });
 
