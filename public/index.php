@@ -2,13 +2,13 @@
 
 require '../vendor/autoload.php';
 
-use LibTask\Task\Task;
-use LibTask\Task\Annotation;
-use LibTask\Taskwarrior;
+use \Needcaffeine\Slim\Extras\Views\ApiView;
+use \Needcaffeine\Slim\Extras\Middleware\ApiMiddleware;
+use Ergos\Ergos;
 
 // Prepare app
 $app = new \Slim\Slim(array(
-    'templates.path' => '../templates',
+  'debug' => true,
 ));
 
 // Create monolog logger and store logger in container as singleton
@@ -18,34 +18,26 @@ $app->container->singleton('log', function () {
     return $log;
 });
 
-// Prepare view
-$app->view(new \Slim\Views\Twig());
-$app->view->parserOptions = array(
-    'charset' => 'utf-8',
-    'cache' => realpath('../templates/cache'),
-    'auto_reload' => true,
-    'strict_variables' => false,
-    'autoescape' => true
-);
-$app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
+$app->view(new ApiView(true));
+$app->add(new ApiMiddleware(true));
 
 // Define routes
 $app->get('/', function () use ($app) {
-    $app->render('index.twig');
+  // TODO: Return something here.
 });
 
 // 404s.
 $app->notFound(function () use ($app) {
-    $app->render('404.html');
+  // TODO.
 });
 
+$ergos = new Ergos($app);
+
 // API
-$app->taskwarrior = new Taskwarrior();
-$app->group('/api', function () use ($app) {
+$app->group('/api', function () use ($app, $ergos) {
   // All tasks
-  $app->get('/tasks', function() use ($app) {
-    $app->response->headers->set('Content-Type', 'application/json');
-    echo $app->taskwarrior->loadTasks(null, array(), true);
+  $app->get('/tasks', function() use ($app, $ergos) {
+    return $ergos->getTasks();
   });
   // Pending tasks.
   $app->get('/tasks/pending', function() use ($app) {

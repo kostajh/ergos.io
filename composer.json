@@ -15,6 +15,7 @@
         "php": ">=5.3.0",
         "monolog/monolog": "1.*",
         "slim/slim": "2.*",
+        "needcaffeine/slim-api-extras": "dev-master",
         "slim/views": "0.*",
         "twig/twig": "1.*",
         "libtask/libtask": "dev-master",
@@ -25,5 +26,8 @@
         "symfony/serializer": "2.3.*",
         "jms/serializer": "dev-master",
         "slim/views": "0.1.*"
+    },
+    "autoload": {
+        "psr-4": {"Ergos\\": "src/Ergos"}
     }
 }
